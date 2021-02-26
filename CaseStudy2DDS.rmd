@@ -1,8 +1,9 @@
 ---
 title: "CaseStudy2DDS"
-author: "Nathan Deinlein"
-date: "2/22/2021"
-output: html_document
+Author: "Nathan Deinlein"
+output: 
+  html_document: 
+    keep_md: yes
 ---
 ## Introduction
 # The Problem Question
