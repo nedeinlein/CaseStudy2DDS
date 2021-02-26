@@ -7,9 +7,9 @@ output:
 ---
 ## Introduction
 # The Problem Question
-For this case study I was given a single data set from a fictional client and asked to look into what might cause an employee to leave a company. This term is known as attrition. The "client" asked to determine the three leading predictors of this event from their data. If a model could be created from this, could it accurately predict the event, and finally, as a side question, based on the data could a regression model be created to accurately predict the salaries of employees.
+For this case study I was given a single data set from a fictional client and asked to look into what might cause an employee to leave a company. This term is known as attrition. The "client" asked to determine the three leading predictors of this event from their data. If a model could be created from this, could it accurately predict the event, and finally, as a side question, based on the data could a regression model be created to accurately predict the salaries of employees?
 
-#The Process
+# The Process
 * EDA - (Exploratory Data Analysis)
 * Modeling for Attrition
 * Predicting Attrition in a Test Set
@@ -26,6 +26,7 @@ library(class)
 library(e1071)
 library(caret)
 library(plotly)
+library(Metrics)
 library(curl)
 ```
 
@@ -34,18 +35,19 @@ The first task was importing the data and changing the Attrition variable to a f
 
 ```{r data import and summary}
 #Base data import
-base <- read.csv('https://raw.githubusercontent.com/nedeinlein/CaseStudy2DDS/main/CaseStudy2data.csv')
+base <- read.csv(curl("https://raw.githubusercontent.com/nedeinlein/CaseStudy2DDS/main/BaseData.csv"))
+
 base$Attrition <- as.factor(base$Attrition)
 df <- base
-summary(data)
+summary(df)
 ```
 
 ## Initial EDA
 Rather than typing out every combination of plot needed for the EDA of this case study, I built an app to allow me to change between plot type and variables as I needed. The App can be found at <insert app link>
 
-## Modeling KNN
-After looking at the data visually, the first model I wanted to test was a simple KNN model. Because many of the variables did not appear to have stark differences between what might cause attrition and what would not, I worked on an original model with all continuous variables and subtracted until I came up with the final model. For this reason the initial plot was to try to find a base line K value to start with in the model.
-```{r #KNN test of model}
+## Modeling KNN (K Nearest Neighbors)
+After looking at the data visually, the first model I wanted to test was a simple KNN model. KNN is a  machine learning tool that maps all the variables in the model, then uses the Euclidean (geometric) distance to determine the nearest neighbors to the point you are trying to categorize. It then uses a number, K, of these neighbors to "vote" on how a test point should be categorized. Because many of the variables did not appear to have stark differences between what could cause attrition and what would not, I worked on an original model with all continuous variables and subtracted until I came up with the final model. For this reason the initial model was used to try to find a base line K value to start with for further refining.
+```{r KNN test of model}
 #Set seed and building test and train data sets
 set.seed(6)
 splitPerc = .75
@@ -72,8 +74,8 @@ plot(accs$k,accs$sensitivity, type = "l", xlab = "K")
 plot(accs$k,accs$specificity, type = "l", xlab = "K")
 ```
 
-#Improving Accuracy
-After running this, the most accurate model that the sum of the data could create with all variables was at K = 11. This put the sensitivity level at 60%, Specificity at around 85%, and accuracy at 85%. To improve the model, I then started removing variables. Variables that caused a large drop in accuracy were kept and at each run, the model was then checked to see if the drop was due to the variable or if it was simply an issue of needing to change the K value to something other than 11.
+# Improving Accuracy
+After running this, the most accurate model that the sum of the data could create with all variables was at K = 11. This put the sensitivity level at 60%, specificity at around 85%, and accuracy at 85%. To improve the model, I then started removing variables. Variables that caused a large drop in accuracy were kept, and, with each run, the model was then checked to see if the drop was due to the variable or if it was simply an issue of needing to change the K value to something other than 11.
 
 ```{r KNN accuracy improvement}
 #knn with all factors at k = 11 has a max sensitivity of 60%
@@ -100,8 +102,8 @@ plot(accs$k,accs$sensitivity, type = "l", xlab = "K")
 plot(accs$k,accs$specificity, type = "l", xlab = "K")
 ```
 
-#Final Model KNN
-After pushing through the process of adding and removing variables, I came up with the final model. The final three factors that created the most accurate model and were thus most influentian to attrition in this model were DailyRate, MonthlyIncome, and MonthlyRate. However, as you can see from the statistics, they are identical to the initial KNN model. This would indicate these are the main three factors that are influencing the model. 
+# Final Model KNN
+After pushing through the process of adding and removing variables, I came up with the final model. The final three factors that created the most accurate model and were thus most influential to attrition in this model were DailyRate, MonthlyIncome, and MonthlyRate. However, as you can see from the statistics, this model was identical to the initial KNN model. This would indicate these are the main three factors that influenced the model. 
 
 ```{r Final Model}
 #most accurate KNN model
@@ -110,8 +112,8 @@ table(test$Attrition,classifications)
 confusionMatrix(table(test$Attrition,classifications),positive = "Yes")
 ```
 
-##NaiveBayes
-While the statistics from the KNN were not completely useless, the model struggled with sensitivity. For this reason, I tested NaiveBayes as a possible alternative to the simple KNN model. My first approach was to plot all variables to get a baseline metric. I then plotted the strongest indicators from the KNN model to see if this would render a more accurate model than the baseline.
+## NaiveBayes
+While the statistics from the KNN were not completely useless, the model struggled with sensitivity. For this reason, I tested NaiveBayes as a possible alternative to the simple KNN model. NaiveBayes is a machine learning model based on a simple equation that looks at probabilities of a variable to classify an observation. This can be expanded out to many variables to create a more accurate model by adding more probabilities to the base equation. My first approach was to have all variables in a base model to get a baseline metric. I then created a model based on the strongest indicators from the KNN model to see if this would render a more accurate model than the baseline.
 
 ```{r NaiveBayes Initial Model}
 #naiveBayes with all possible variables to use as a baseline
@@ -126,27 +128,27 @@ CM
 ```
 
 # Improving NaiveBayes accuracy
-After running the strongest indicators from the KNN model and the sensitivity metric coming back as 0, I went back to starting with all variables then removing variables that would improve or keep the metrics the same and keeping those that reduced the metrics of the model. This resulted in the following findings:
+After running the strongest indicators from the KNN model and the sensitivity metric coming back as 0, I went back to the base model. I then removed variables and noted their change on the model. Those that, when removed, caused the metrics to decline were kept in the model. Those that, when removed, either improved the model or had no impact were removed. Through this testing the following results were found:
+ 
+#### Top Changers of Model
+ 
+##### Top 4 Accuracy changers
+* OverTime
+* JobInvolvement
+* JobSatisfaction
+* MaritalStatus
 
-Top changers of model
+##### Top 4 Sensitivity Changers
+* OverTime
+* JobInvolvement
+* MaritalStatus
+* YearsInCurrentRole
 
-Top 4 Accuracy changers
-*OverTime
-*JobInvolvement
-*JobSatisfaction
-*MaritalStatus
-
-Top 4 Sensitivity changers
-*OverTime
-*JobInvolvement
-*MaritalStatus
-*YearsInCurrentRole
-
-Top 4 Sensitivity changers
-*OverTime
-*JobSatisfaction
-*MaritalStatus
-*MonthlyRate
+##### Top 4 Sensitivity Changers
+* OverTime
+* JobSatisfaction
+* MaritalStatus
+* MonthlyRate
 
 This testing resulted in the final model found below.
 ```{r Final NaiveBayes Model}
@@ -157,14 +159,14 @@ CM
 ```
 
 ## Prediction of Attrition
-When comparing the final models for both KNN and NaiveBayes, NaiveBayes was very clearly the more appropriate model for this data set and what was attempting to be predicted. For this reason it was used to predict Attrition based on a test set supplied by the "client". Below is the code for exporting the predictions as directed. These have been uploaded to the github repository for this case study.
+When comparing the final models for both KNN and NaiveBayes, NaiveBayes was very clearly the more appropriate model for this data set. For this reason it was used to predict Attrition based on a test set supplied by the "client". Below is the code for exporting the predictions as directed. These have been uploaded to the github repository for this case study.
 ```{r Prediction Attrition}
 #Final naiveBayes model - Prediction of Attrition
 Case2PredictionsXXXXAttrition_raw <- read.csv('https://raw.githubusercontent.com/nedeinlein/CaseStudy2DDS/main/CaseStudy2CompSet%20No%20Attrition.csv')
 model = naiveBayes(Attrition ~ Age + BusinessTravel + DistanceFromHome + Education + EnvironmentSatisfaction + HourlyRate + JobInvolvement + JobLevel + JobSatisfaction + MaritalStatus + MonthlyIncome + MonthlyRate + NumCompaniesWorked + OverTime+ StockOptionLevel + TotalWorkingYears + TrainingTimesLastYear + WorkLifeBalance + YearsAtCompany + YearsInCurrentRole + YearsSinceLastPromotion + YearsWithCurrManager, data = train)
 Attrition <- predict(model,Case2PredictionsXXXXAttrition_raw)
 Predictions <- cbind(Case2PredictionsXXXXAttrition_raw,Attrition) %>% select(ID,Attrition)
-write.csv(Predictions,file = "Case2PredictionsDeinlein Attrition.csv")
+Predictions
 ```
 
 ## Salary Regression
@@ -193,8 +195,8 @@ results <- as.data.frame(results)
 results
 ```
 
-#Final Regression
-After porting the adjusted R-Squared values into the easy to read table, I determined that JobLevel, JobRole, and TotalWorkingYears, would probably be my final model. But first, I tested to make sure that no more accurate model could be created than just using those those three variables. This was done by substituting variables and removing variables. But this ended up being the final model based on the RMSE.
+# Final Regression
+After porting the adjusted R-Squared values into the easy to read table, I determined that JobLevel, JobRole, and TotalWorkingYears, would probably be my final model. But first, I tested to make sure that no more accurate model could be created than just using those three variables. This was done by substituting variables and removing variables, but this ended up being the final model based on the RMSE.
 
 ```{r Final Regression Model}
 #Final regression model
@@ -205,12 +207,15 @@ rmse(test$MonthlyIncome, pred)
 ```
 
 # Prediction of Salary
-The above model was then used on a test set supplied by the "client" to predict salary. Below is the code that was used to run the prediction and then export the data in the appropriate format for submission.
+The above model was then used on a test date set supplied by the "client" to predict salary. Below is the code that was used to run the prediction and then export the data in the appropriate format for submission.
 ```{r Regression Prediction}
 #Regression prediction
 Case2PredictionsXXXXSalary_raw <- read.csv('https://raw.githubusercontent.com/nedeinlein/CaseStudy2DDS/main/CaseStudy2CompSet%20No%20Salary.csv')
 fitness<- lm(MonthlyIncome ~ JobLevel + JobRole + TotalWorkingYears, data = train)
 MonthlyIncome<- predict(fitness,Case2PredictionsXXXXSalary_raw)
 Predictionsalary <- cbind(Case2PredictionsXXXXSalary_raw,MonthlyIncome) %>% select(ID,MonthlyIncome)
-write.csv(Predictionsalary,file = "Case2PredictionsDeinlein Salary.csv")
+Predictionsalary
 ```
+
+## Thank you for your review of this project.
+Nathan Deinlein
