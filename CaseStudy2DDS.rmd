@@ -43,7 +43,7 @@ summary(df)
 ```
 
 ## Initial EDA
-Rather than typing out every combination of plot needed for the EDA of this case study, I built an app to allow me to change between plot type and variables as I needed. The App can be found at <insert app link>
+Rather than typing out every combination of plot needed for the EDA of this case study, I built an app to allow me to change between plot type and variables as I needed. The App can be found at <https://nedeinlein.shinyapps.io/EDA_App/>
 
 ## Modeling KNN (K Nearest Neighbors)
 After looking at the data visually, the first model I wanted to test was a simple KNN model. KNN is a  machine learning tool that maps all the variables in the model, then uses the Euclidean (geometric) distance to determine the nearest neighbors to the point you are trying to categorize. It then uses a number, K, of these neighbors to "vote" on how a test point should be categorized. Because many of the variables did not appear to have stark differences between what could cause attrition and what would not, I worked on an original model with all continuous variables and subtracted until I came up with the final model. For this reason the initial model was used to try to find a base line K value to start with for further refining.
