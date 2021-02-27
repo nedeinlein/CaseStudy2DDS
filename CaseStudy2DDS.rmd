@@ -5,6 +5,8 @@ output:
   html_document: 
     keep_md: yes
 ---
+Youtube Link https://youtu.be/ihfd1bgg8xc
+
 # Introduction
 ## The Problem Question
 For this case study I was given a single data set from a fictional client and asked to look into what might cause an employee to leave a company. This term is known as attrition. The "client" asked to determine the three leading predictors of this event from their data. If a model could be created from this, could it accurately predict the event, and finally, as a side question, based on the data could a regression model be created to accurately predict the salaries of employees?
