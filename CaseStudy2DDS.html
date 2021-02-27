@@ -192,15 +192,14 @@ summary {
 </div>
 
 
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
-</div>
-<div id="the-problem-question" class="section level1">
-<h1>The Problem Question</h1>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<div id="the-problem-question" class="section level2">
+<h2>The Problem Question</h2>
 <p>For this case study I was given a single data set from a fictional client and asked to look into what might cause an employee to leave a company. This term is known as attrition. The “client” asked to determine the three leading predictors of this event from their data. If a model could be created from this, could it accurately predict the event, and finally, as a side question, based on the data could a regression model be created to accurately predict the salaries of employees?</p>
 </div>
-<div id="the-process" class="section level1">
-<h1>The Process</h1>
+<div id="the-process" class="section level2">
+<h2>The Process</h2>
 <ul>
 <li>EDA - (Exploratory Data Analysis)</li>
 <li>Modeling for Attrition</li>
@@ -208,6 +207,7 @@ summary {
 <li>Modeling Regression for Salary</li>
 <li>Predicting Salary in a Test Set</li>
 </ul>
+</div>
 </div>
 <div id="data-import-and-configuration" class="section level1">
 <h1>Data Import and configuration</h1>
@@ -314,9 +314,8 @@ plot(accs$k,accs$sensitivity, type = &quot;l&quot;, xlab = &quot;K&quot;)
 plot(accs$k,accs$specificity, type = &quot;l&quot;, xlab = &quot;K&quot;)</code></pre>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
-</div>
-<div id="improving-accuracy" class="section level1">
-<h1>Improving Accuracy</h1>
+<div id="improving-accuracy" class="section level2">
+<h2>Improving Accuracy</h2>
 <p>After running this, the most accurate model that the sum of the data could create with all variables was at K = 11. This put the sensitivity level at 60%, specificity at around 85%, and accuracy at 85%. To improve the model, I then started removing variables. Variables that caused a large drop in accuracy were kept, and, with each run, the model was then checked to see if the drop was due to the variable or if it was simply an issue of needing to change the K value to something other than 11.</p>
 <pre class="r"><code>#knn with all factors at k = 11 has a max sensitivity of 60%
 classifications = knn(train[,c(2,5,7,8,12,14,15,16,18,20,21,22,25,27,29,30,31,32,33,34,35,36)],test[,c(2,5,7,8,12,14,15,16,18,20,21,22,25,27,29,30,31,32,33,34,35,36)],train$Attrition, prob = TRUE, k = 11)
@@ -372,8 +371,8 @@ plot(accs$k,accs$sensitivity, type = &quot;l&quot;, xlab = &quot;K&quot;)
 plot(accs$k,accs$specificity, type = &quot;l&quot;, xlab = &quot;K&quot;)</code></pre>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
-<div id="final-model-knn" class="section level1">
-<h1>Final Model KNN</h1>
+<div id="final-model-knn" class="section level2">
+<h2>Final Model KNN</h2>
 <p>After pushing through the process of adding and removing variables, I came up with the final model. The final three factors that created the most accurate model and were thus most influential to attrition in this model were DailyRate, MonthlyIncome, and MonthlyRate. However, as you can see from the statistics, this model was identical to the initial KNN model. This would indicate these are the main three factors that influenced the model.</p>
 <pre class="r"><code>#most accurate KNN model
 classifications = knn(train[,c(5,20,21)],test[,c(5,20,21)],train$Attrition, prob = TRUE, k = 11)
@@ -410,6 +409,7 @@ table(test$Attrition,classifications)</code></pre>
 ##                                          
 ##        &#39;Positive&#39; Class : Yes            
 ## </code></pre>
+</div>
 <div id="naivebayes" class="section level2">
 <h2>NaiveBayes</h2>
 <p>While the statistics from the KNN were not completely useless, the model struggled with sensitivity. For this reason, I tested NaiveBayes as a possible alternative to the simple KNN model. NaiveBayes is a machine learning model based on a simple equation that looks at probabilities of a variable to classify an observation. This can be expanded out to many variables to create a more accurate model by adding more probabilities to the base equation. My first approach was to have all variables in a base model to get a baseline metric. I then created a model based on the strongest indicators from the KNN model to see if this would render a more accurate model than the baseline.</p>
@@ -476,9 +476,8 @@ CM</code></pre>
 ##        &#39;Positive&#39; Class : Yes             
 ## </code></pre>
 </div>
-</div>
-<div id="improving-naivebayes-accuracy" class="section level1">
-<h1>Improving NaiveBayes accuracy</h1>
+<div id="improving-naivebayes-accuracy" class="section level2">
+<h2>Improving NaiveBayes accuracy</h2>
 <p>After running the strongest indicators from the KNN model and the sensitivity metric coming back as 0, I went back to the base model. I then removed variables and noted their change on the model. Those that, when removed, caused the metrics to decline were kept in the model. Those that, when removed, either improved the model or had no impact were removed. Through this testing the following results were found:</p>
 <div id="top-changers-of-model" class="section level4">
 <h4>Top Changers of Model</h4>
@@ -540,6 +539,7 @@ CM</code></pre>
 ##                                           
 ##        &#39;Positive&#39; Class : Yes             
 ## </code></pre>
+</div>
 </div>
 </div>
 <div id="prediction-of-attrition" class="section level2">
@@ -885,9 +885,8 @@ results</code></pre>
 ## 5 lm(formula = MonthlyIncome ~ TotalWorkingYears, data = train)  0.5897309
 ## 6    lm(formula = MonthlyIncome ~ YearsAtCompany, data = train)  0.2282825</code></pre>
 </div>
-</div>
-<div id="final-regression" class="section level1">
-<h1>Final Regression</h1>
+<div id="final-regression-model" class="section level2">
+<h2>Final Regression Model</h2>
 <p>After porting the adjusted R-Squared values into the easy to read table, I determined that JobLevel, JobRole, and TotalWorkingYears, would probably be my final model. But first, I tested to make sure that no more accurate model could be created than just using those three variables. This was done by substituting variables and removing variables, but this ended up being the final model based on the RMSE.</p>
 <pre class="r"><code>#Final regression model
 fitness &lt;- lm(MonthlyIncome ~ JobLevel + JobRole + TotalWorkingYears, data = train)
@@ -924,8 +923,8 @@ summary(fitness)</code></pre>
 rmse(test$MonthlyIncome, pred)</code></pre>
 <pre><code>## [1] 1056.396</code></pre>
 </div>
-<div id="prediction-of-salary" class="section level1">
-<h1>Prediction of Salary</h1>
+<div id="prediction-of-salary" class="section level2">
+<h2>Prediction of Salary</h2>
 <p>The above model was then used on a test date set supplied by the “client” to predict salary. Below is the code that was used to run the prediction and then export the data in the appropriate format for submission.</p>
 <pre class="r"><code>#Regression prediction
 Case2PredictionsXXXXSalary_raw &lt;- read.csv(&#39;https://raw.githubusercontent.com/nedeinlein/CaseStudy2DDS/main/CaseStudy2CompSet%20No%20Salary.csv&#39;)
@@ -1234,9 +1233,10 @@ Predictionsalary</code></pre>
 ## 298 1168      5730.247
 ## 299 1169      2712.235
 ## 300 1170      2808.214</code></pre>
-<div id="thank-you-for-your-review-of-this-project." class="section level2">
-<h2>Thank you for your review of this project.</h2>
+<div id="thank-you-for-your-review-of-this-project." class="section level3">
+<h3>Thank you for your review of this project.</h3>
 <p>Nathan Deinlein</p>
+</div>
 </div>
 </div>
 

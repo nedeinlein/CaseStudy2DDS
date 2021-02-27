@@ -5,11 +5,11 @@ output:
   html_document: 
     keep_md: yes
 ---
-## Introduction
-# The Problem Question
+# Introduction
+## The Problem Question
 For this case study I was given a single data set from a fictional client and asked to look into what might cause an employee to leave a company. This term is known as attrition. The "client" asked to determine the three leading predictors of this event from their data. If a model could be created from this, could it accurately predict the event, and finally, as a side question, based on the data could a regression model be created to accurately predict the salaries of employees?
 
-# The Process
+## The Process
 * EDA - (Exploratory Data Analysis)
 * Modeling for Attrition
 * Predicting Attrition in a Test Set
@@ -74,7 +74,7 @@ plot(accs$k,accs$sensitivity, type = "l", xlab = "K")
 plot(accs$k,accs$specificity, type = "l", xlab = "K")
 ```
 
-# Improving Accuracy
+## Improving Accuracy
 After running this, the most accurate model that the sum of the data could create with all variables was at K = 11. This put the sensitivity level at 60%, specificity at around 85%, and accuracy at 85%. To improve the model, I then started removing variables. Variables that caused a large drop in accuracy were kept, and, with each run, the model was then checked to see if the drop was due to the variable or if it was simply an issue of needing to change the K value to something other than 11.
 
 ```{r KNN accuracy improvement}
@@ -102,7 +102,7 @@ plot(accs$k,accs$sensitivity, type = "l", xlab = "K")
 plot(accs$k,accs$specificity, type = "l", xlab = "K")
 ```
 
-# Final Model KNN
+## Final Model KNN
 After pushing through the process of adding and removing variables, I came up with the final model. The final three factors that created the most accurate model and were thus most influential to attrition in this model were DailyRate, MonthlyIncome, and MonthlyRate. However, as you can see from the statistics, this model was identical to the initial KNN model. This would indicate these are the main three factors that influenced the model. 
 
 ```{r Final Model}
@@ -127,7 +127,7 @@ CM = confusionMatrix(table(predict(model,test),test$Attrition), positive = "Yes"
 CM
 ```
 
-# Improving NaiveBayes accuracy
+## Improving NaiveBayes accuracy
 After running the strongest indicators from the KNN model and the sensitivity metric coming back as 0, I went back to the base model. I then removed variables and noted their change on the model. Those that, when removed, caused the metrics to decline were kept in the model. Those that, when removed, either improved the model or had no impact were removed. Through this testing the following results were found:
  
 #### Top Changers of Model
@@ -195,7 +195,7 @@ results <- as.data.frame(results)
 results
 ```
 
-# Final Regression
+## Final Regression Model
 After porting the adjusted R-Squared values into the easy to read table, I determined that JobLevel, JobRole, and TotalWorkingYears, would probably be my final model. But first, I tested to make sure that no more accurate model could be created than just using those three variables. This was done by substituting variables and removing variables, but this ended up being the final model based on the RMSE.
 
 ```{r Final Regression Model}
@@ -206,7 +206,7 @@ pred <- predict(fitness, newdata = test)
 rmse(test$MonthlyIncome, pred)
 ```
 
-# Prediction of Salary
+## Prediction of Salary
 The above model was then used on a test date set supplied by the "client" to predict salary. Below is the code that was used to run the prediction and then export the data in the appropriate format for submission.
 ```{r Regression Prediction}
 #Regression prediction
@@ -217,5 +217,5 @@ Predictionsalary <- cbind(Case2PredictionsXXXXSalary_raw,MonthlyIncome) %>% sele
 Predictionsalary
 ```
 
-## Thank you for your review of this project.
+### Thank you for your review of this project.
 Nathan Deinlein
