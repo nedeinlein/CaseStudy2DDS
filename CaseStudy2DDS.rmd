@@ -219,5 +219,12 @@ Predictionsalary <- cbind(Case2PredictionsXXXXSalary_raw,MonthlyIncome) %>% sele
 Predictionsalary
 ```
 
-### Thank you for your review of this project.
-Nathan Deinlein
+# Summary
+
+#### Initial EDA helped locate possible indicators of attrition and helped quickly model salary prediction
+#### Three biggest factors that had strong correlations with attrition were:
+* Overtime
+* JobInvolvement
+* MaritalStatus
+
+#### Salary for employees could be calculated on a multilinear regression model using the factors  of JobLevel, JobRole, and TotalWorkingYears
